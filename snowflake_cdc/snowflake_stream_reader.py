@@ -146,7 +146,7 @@ class SnowflakeStreamReader():
     sfConnect = SnowflakeConnect(snowflake_creds)
     
     sfTable = SnowflakeTable(database_name=db_name, schema_name=sc_name, table_name=config.get('table_name'), merge_keys=config.get("merge_keys"))
-    
+    print("sfTable", sfTable)
     sfNamespace = SnowflakeNamespace(config)
     sfNamespace.add_table(sfTable)
     file_query_id, stage_query_id = sfConnect.account_setup(sfNamespace) 
