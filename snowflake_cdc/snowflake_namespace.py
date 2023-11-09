@@ -34,7 +34,7 @@ class SnowflakeNamespace():
     self.tables = {}
     if table_list is not None:
       for t in table_list:
-        key = f"{t.database_name}__{t.schema_name}__{t.table_name}"
+        key = f"{t['database_name']}__{t['schema_name']}__{t['table_name']}"
         self.tables[key] = t
         
         

@@ -99,11 +99,8 @@ class SnowflakeConnect():
         SCHEDULE = '{snowflake_table.task_schedule}' -- Change as needed 
         ALLOW_OVERLAPPING_EXECUTION = FALSE -- if they overlap then we may get duplicates from the stream if the previous DML is not complete 
         USER_TASK_MANAGED_INITIAL_WAREHOUSE_SIZE = '{snowflake_table.task_warehouse_size}' -- using Snowflake Serverless compute 
-        AS 
-          COPY INTO @{stage_name}/{database_name}/{schema_name}/{table_name}
-          FROM (
-          SELECT OBJECT_CONSTRUCT(*) as row_value FROM (SELECT *, current_timestamp() as load_datetime FROM {table_name}_stream )
-              )
+        AS COPY INTO @{stage_name}/{database_name}/{schema_name}/{table_name}
+          FROM (SELECT *, current_timestamp() as load_datetime FROM {table_name}_stream )
           PARTITION BY ('year=' || to_varchar(current_date(), 'YYYY') || '/month=' || to_varchar(current_date(), 'MM') || '/day=' || to_varchar(current_date(), 'DD')) -- set it up in the /yyyy/mm/dd format for autoloader
           include_query_id=true;  -- Ensures that each file we write has a unique name which is required for auto loader  
         
